@@ -1,5 +1,6 @@
 var getUrl = "https://tads-kitchen.herokuapp.com/cards";
-var atualizar = setInterval(temporizador, 5000);
+var urlToggle = "https://tads-kitchen.herokuapp.com/card/toggle/";
+
 
 $(document).ready(function() {
     $.get(
@@ -8,14 +9,15 @@ $(document).ready(function() {
             preencherLista(data);
         }
     );
-})
+});
 
-function temporizador() {
-    limparLista();
-    atualizaDados();
+function alternar(valor) {
+    $.get(urlToggle + valor);
+    atualizarPagina();
 }
 
-function atualizaDados() {
+function atualizarPagina() {
+    limparLista();
     $.get(
         getUrl,
         function(data) {
@@ -41,9 +43,9 @@ function criarItem(data) {
     var classe = "";
 
     if (data.status == "off") {
-        classe = "list-group-item-danger";
+        classe = "danger";
     } else {
-        classe = "list-group-item-success";
+        classe = "success";
     }
 
     string = template(data.number, data.status, classe);
@@ -53,9 +55,9 @@ function criarItem(data) {
 
 function template(number, status, classe) {
     return `
-    <tr id="linha">
+    <tr>
         <th name="number" scope="row">${number}</th>
-        <td name="status" class="${classe}">${status}</td>
+        <td name="status" class="list-group-item-${classe}"><button class="btn-${classe}" onclick="alternar(${number})">${status}</button></td>
     </tr>
     `;
 }

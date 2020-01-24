@@ -1,5 +1,4 @@
 var getUrl = "https://tads-kitchen.herokuapp.com/cards";
-var atualizar = setInterval(temporizador, 5000);
 
 $(document).ready(function() {
     $.get(
@@ -10,23 +9,6 @@ $(document).ready(function() {
     );
 })
 
-function temporizador() {
-    limparLista();
-    atualizaDados();
-}
-
-function atualizaDados() {
-    $.get(
-        getUrl,
-        function(data) {
-            preencherLista(data);
-        }
-    );
-}
-
-function limparLista() {
-    $("#tab").empty();
-}
 
 function preencherLista(data) {
     var lista = $("#tab")[0];
